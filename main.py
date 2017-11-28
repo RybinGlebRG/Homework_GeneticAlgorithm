@@ -21,7 +21,7 @@ toolbox = base.Toolbox()
 
 toolbox.register("attr_item", random.randrange, rd.n)
 toolbox.register("individual", tools.initRepeat, creator.Individual,
-                 toolbox.attr_item, 5)
+                 toolbox.attr_item, 50)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 def evalKnapsack(individual):
@@ -42,9 +42,19 @@ def cxSet(ind1, ind2):
     ind2 ^= temp
     return ind1, ind2
 
+def mutSet(individual):
+    """Mutation that pops or add an element."""
+    if random.random() < 0.5:
+        if len(individual) > 0:  # We cannot pop from an empty set
+            individual.remove(random.choice(sorted(tuple(individual))))
+    else:
+        individual.add(random.randrange(rd.n))
+    return individual,
+
 toolbox.register("evaluate", evalKnapsack)
 toolbox.register("mate", cxSet)
 toolbox.register("select", tools.selNSGA2)
+toolbox.register("mutate", mutSet)
 
 def main():
     random.seed(64)
@@ -52,7 +62,7 @@ def main():
     MU = 50
     LAMBDA = 100
     CXPB = 0.7
-    MUTPB = 0.0
+    MUTPB = 0.2
 
     pop = toolbox.population(n=MU)
 
@@ -67,4 +77,4 @@ if __name__ == "__main__":
         if pop[i].fitness.values[2]>pop[big].fitness.values[2]:
             big=i
     new=list(pop[big])
-    print(set)
+    print(new)

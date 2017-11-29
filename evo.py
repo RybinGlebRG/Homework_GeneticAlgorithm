@@ -178,3 +178,16 @@ class Evo():
                 break
         self.fittestPopulation=population
         self.check(self.fittestPopulation)
+
+        maxP = 0
+        for i in range(1, len(self.fittestPopulation)):
+            weight, volume, value = self.getWVV(self.fittestPopulation[i])
+            mw, mv, mva = self.getWVV(self.fittestPopulation[maxP])
+            if  value > mva:
+                maxP = i
+        indexes=[]
+        for i in range(0,len(self.fittestPopulation[maxP])):
+            if self.fittestPopulation[maxP][i]==1:
+                indexes.append(i)
+        print(indexes)
+        return indexes

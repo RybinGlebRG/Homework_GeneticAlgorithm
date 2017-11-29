@@ -80,3 +80,4 @@ def run():
             big=i
     new=list(pop[big])
     print(new)
+    return new
